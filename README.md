@@ -26,10 +26,6 @@ sudo docker run --name=vscode --net=host -d \
 And open http://localhost:8443 with your favorites browser.
 For detail options, see [code-server](https://github.com/cdr/code-server).
 
-### Prettier keyboard shortcuts
-`Ctrl+Shift+I` or `Ctrl+K`.
-Please confirm File > Preferences menu of your environment.
-
 ### Pathes of vscode code-server
 If you want to preserve the settings and extensions, please mount following pathes with `-v` option of `docker run` command.
 
