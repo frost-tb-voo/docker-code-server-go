@@ -1,0 +1,10 @@
+#!/bin/sh
+
+#IMAGE=codercom/code-server:1.939
+IMAGE=codercom/code-server:latest
+DIR=$(cd $(dirname ${BASH_SOURCE:-$0}); pwd)
+
+cd ${DIR}
+docker pull ${IMAGE}
+docker build -t novsyama/code-server-go --build-arg VCS_REF=`git rev-parse --short HEAD` .
+docker images novsyama/code-server-go
