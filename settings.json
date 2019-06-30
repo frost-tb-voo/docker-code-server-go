@@ -1,4 +1,5 @@
 {
     "typescript.tsdk": "/usr/local/lib/node_modules/typescript/lib",
-    "go.goroot": "/usr/local/go"
+    "go.goroot": "/usr/local/go",
+    "go.gopath": "/home/coder/go"
 }
