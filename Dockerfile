@@ -32,7 +32,6 @@ USER coder
 ENV GOPATH /home/coder/go
 ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
 RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 777 "$GOPATH" \
- && set -ex; \
  && go get -u -v github.com/ramya-rao-a/go-outline \
  && go get -u -v github.com/acroca/go-symbols \
  && go get -u -v github.com/mdempsky/gocode \
