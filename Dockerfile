@@ -1,3 +1,5 @@
+FROM golang:buster as golang
+
 #FROM codercom/code-server:1.939
 FROM codercom/code-server:latest
 MAINTAINER Novs Yama
@@ -19,18 +21,7 @@ RUN apt-get -qq update \
  && apt-get -q -y autoremove \
  && rm -rf /var/lib/apt/lists
 
-ENV GOLANG_VERSION 1.12.6
-ENV goRelArch linux-amd64
-ENV goRelSha256 dbcf71a3c1ea53b8d54ef1b48c85a39a6c9a935d01fc8291ff2b92028e59913c
-
-RUN set -eux; \
-	url="https://golang.org/dl/go${GOLANG_VERSION}.${goRelArch}.tar.gz"; \
-	wget -nv -O go.tgz "$url"; \
-	echo "${goRelSha256} *go.tgz" | sha256sum -c -; \
-	tar -C /usr/local -xzf go.tgz; \
-	rm go.tgz; \
-	export PATH="/usr/local/go/bin:$PATH"; \
-	go version
+COPY --from=golang /usr/local/go /usr/local/go
 
 ENV GOPATH /go
 ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
