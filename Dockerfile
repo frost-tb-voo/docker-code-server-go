@@ -36,21 +36,31 @@ ENV GOPATH /go
 ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
 RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 777 "$GOPATH"
 
+# https://github.com/Microsoft/vscode-go/wiki/Go-tools-that-the-Go-extension-depends-on
 USER coder
 ENV GOPATH /home/coder/go
 ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
 RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 777 "$GOPATH" \
- && go get -v github.com/mdempsky/gocode \
- && go get -v github.com/uudashr/gopkgs/cmd/gopkgs \
- && go get -v github.com/ramya-rao-a/go-outline \
- && go get -v github.com/acroca/go-symbols \
- && go get -v golang.org/x/tools/cmd/guru \
- && go get -v golang.org/x/tools/cmd/gorename \
- && go get -v github.com/go-delve/delve/cmd/dlv \
- && go get -v github.com/stamblerre/gocode \
- && go get -v github.com/rogpeppe/godef \
- && go get -v github.com/sqs/goreturns \
- && go get -v golang.org/x/lint/golint
+ && set -ex; \
+ && go get -u -v github.com/ramya-rao-a/go-outline \
+ && go get -u -v github.com/acroca/go-symbols \
+ && go get -u -v github.com/mdempsky/gocode \
+ && go get -u -v github.com/rogpeppe/godef \
+ && go get -u -v golang.org/x/tools/cmd/godoc \
+ && go get -u -v github.com/zmb3/gogetdoc \
+ && go get -u -v golang.org/x/lint/golint \
+ && go get -u -v github.com/fatih/gomodifytags \
+ && go get -u -v golang.org/x/tools/cmd/gorename \
+ && go get -u -v sourcegraph.com/sqs/goreturns \
+ && go get -u -v golang.org/x/tools/cmd/goimports \
+ && go get -u -v github.com/cweill/gotests \
+ && go get -u -v golang.org/x/tools/cmd/guru \
+ && go get -u -v github.com/josharian/impl \
+ && go get -u -v github.com/haya14busa/goplay/cmd/goplay \
+ && go get -u -v github.com/uudashr/gopkgs/cmd/gopkgs \
+ && go get -u -v github.com/davidrjenni/reftools/cmd/fillstruct \
+ && curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.21.0 \
+ && go get -u github.com/go-delve/delve/cmd/dlv
 
 USER root
 WORKDIR /golang
@@ -61,23 +71,26 @@ RUN apt-get -qq update \
  && rm -rf /var/lib/apt/lists \
  && npm install -g n --silent \
  && npm cache clean --force -g \
- && n stable
-RUN npm install -g yarn typescript --silent \
- && npm cache clean --force -g
+ && n stable \
+ && npm install -g typescript --silent \
+ && npm cache clean --force -g \
+ && rm -rf ~/.npm
+ENV VSCODE_GO_VERSION=0.11.7
 RUN apt-get -qq update \
  && apt-get -qq -y install curl zip unzip \
- && curl -L -o Go-0.11.0.vsix https://github.com/microsoft/vscode-go/releases/download/0.11.0/Go-0.11.0.vsix \
- && unzip -q Go-0.11.0.vsix \
- && rm Go-0.11.0.vsix \
+ && curl -L -o Go-${VSCODE_GO_VERSION}.vsix https://github.com/microsoft/vscode-go/releases/download/${VSCODE_GO_VERSION}/Go-${VSCODE_GO_VERSION}.vsix \
+ && unzip -q Go-${VSCODE_GO_VERSION}.vsix \
+ && rm Go-${VSCODE_GO_VERSION}.vsix \
  && cd /golang/extension \
  && npm install \
  && npm audit fix --force \
  && npm cache clean --force \
  && rm -r node_modules package-lock.json \
- && yarn install \
- && yarn cache clean \
+ && npm install \
+ && npm cache clean --force \
+ && rm -rf ~/.npm \
  && cd /golang \
- && zip -q -r Go-0.11.0.vsix . \
+ && zip -q -r Go-${VSCODE_GO_VERSION}.vsix . \
  && apt-get -q -y purge curl zip unzip \
  && apt-get -q -y autoclean \
  && apt-get -q -y autoremove \
@@ -86,7 +99,7 @@ RUN apt-get -qq update \
 
 WORKDIR /home/coder/project
 USER coder
-RUN code-server --install-extension /golang/Go-0.11.0.vsix
+RUN code-server --install-extension /golang/Go-${VSCODE_GO_VERSION}.vsix
 
 USER root
 ADD settings.json /home/coder/.local/share/code-server/User/settings.json
@@ -95,5 +108,4 @@ RUN cd / \
  && chown -hR coder /home/coder
 
 USER coder
-
 
