@@ -60,10 +60,7 @@ RUN apt-get -qq update \
  && rm -rf /var/lib/apt/lists \
  && npm install -g n --silent \
  && npm cache clean --force -g \
- && n stable \
- && npm install -g typescript --silent \
- && npm cache clean --force -g \
- && rm -rf ~/.npm
+ && n stable
 ENV VSCODE_GO_VERSION=0.11.7
 RUN apt-get -qq update \
  && apt-get -qq -y install curl zip unzip \
