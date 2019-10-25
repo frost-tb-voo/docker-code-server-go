@@ -1,7 +1,6 @@
 FROM golang:buster as golang
 
-#FROM codercom/code-server:1.939
-FROM codercom/code-server:latest
+FROM codercom/code-server:v2
 MAINTAINER Novs Yama
 
 ARG VCS_REF

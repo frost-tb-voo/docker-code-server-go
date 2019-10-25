@@ -12,15 +12,16 @@ See [novsyama/code-server-go](https://hub.docker.com/r/novsyama/code-server-go/)
 ## How
 
 ```bash
-ABS_DIR=<workspace absolute path>
+PROJECT_DIR=<workspace absolute path>
 
 sudo docker pull novsyama/code-server-go
 sudo docker run --name=vscode --net=host -d \
- -v "${ABS_DIR}:/home/coder/project" \
+ -v "${PROJECT_DIR}:/home/coder/project" \
  -w /home/coder/project \
+ --security-opt "seccomp:unconfined" \
  novsyama/code-server-go \
  code-server \
- --allow-http --no-auth
+ --auth none
 ```
 
 And open http://localhost:8443 with your favorites browser.
@@ -34,3 +35,21 @@ If you want to preserve the settings and extensions, please mount following path
 - Settings path : ~/.local/share/code-server/User/settings.json
 - GOPATH : ~/go
 
+### Install more extensions
+- Download .vsix file from https://marketplace.visualstudio.com/.
+- Put .vsix file into your project directory.
+- Start the code-server container.
+- Go to http://localhost:8080 and open the terminal and type
+  - `code-server --install-extension $vsix_filepath`
+
+## Similar official functionality in vscode
+[Developing inside a Container](https://code.visualstudio.com/docs/remote/containers)
+
+This requires local installed visual studio code.
+
+## Contact
+Please open an issue:
+
+https://github.com/frost-tb-voo/docker-code-server-go/issues
+
+And mension to @frost-tb-voo.

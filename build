@@ -1,7 +1,6 @@
 #!/bin/sh
 
-#IMAGE=codercom/code-server:1.939
-IMAGE=codercom/code-server:latest
+IMAGE=codercom/code-server:v2
 DIR=$(cd $(dirname ${BASH_SOURCE:-$0}); pwd)
 
 cd ${DIR}
