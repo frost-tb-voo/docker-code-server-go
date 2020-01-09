@@ -20,7 +20,8 @@ RUN apt-get -qq update \
  && npm install -g n --silent \
  && n stable
 WORKDIR /golang/extension
-RUN npm install --silent \
+RUN npm install get-installed-path --save --silent \
+ && npm install --silent \
  && npm audit fix --force \
  && npm cache clean --force \
  && rm -r node_modules package-lock.json \
