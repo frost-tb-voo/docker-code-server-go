@@ -1,5 +1,33 @@
 {
     "typescript.tsdk": "/usr/local/lib/node_modules/typescript/lib",
     "go.goroot": "/usr/local/go",
-    "go.gopath": "/home/coder/go"
+    "go.gopath": "/home/coder/go",
+    // "go.gopath": "${workspaceRoot}/go",
+    "go.docsTool": "gogetdoc",
+    // "go.useLanguageServer": true,
+    "[go]": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true,
+        },
+        // Optional: Disable snippets, as they conflict with completion ranking.
+        "editor.snippetSuggestions": "none",
+        "editor.codeActionsOnSaveTimeout": 3000,
+    },
+    "gopls": {
+         // Add parameter placeholders when completing a function.
+        "usePlaceholders": true,
+    
+        // If true, enable additional analyses with staticcheck.
+        // Warning: This will significantly increase memory usage.
+        "staticcheck": false,
+    },
+    "go.autocompleteUnimportedPackages": true,
+    "go.useCodeSnippetsOnFunctionSuggestWithoutType": true,
+    "go.useCodeSnippetsOnFunctionSuggest": true,
+    "go.gocodeAutoBuild": true,
+    "go.formatTool": "goreturns",
+    "go.lintTool": "revive",
 }
+
+
