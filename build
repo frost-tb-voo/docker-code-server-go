@@ -1,12 +1,15 @@
 #!/bin/sh
 
-IMAGE=codercom/code-server:v2
+IMAGE=codercom/code-server
 DIR=$(cd $(dirname ${BASH_SOURCE:-$0}); pwd)
 
 cd ${DIR}
 docker pull node
 docker pull golang:buster
 docker pull ${IMAGE}
-docker build -t novsyama/code-server-go --build-arg VCS_REF=`git rev-parse --short HEAD` .
+docker build -t novsyama/code-server-go \
+ --build-arg VCS_REF=`git rev-parse --short HEAD` \
+ --build-arg VSCODE_GO_VERSION="0.12.0" \
+ .
 docker tag novsyama/code-server-go novsyama/code-server-go:local
 docker images novsyama/code-server-go

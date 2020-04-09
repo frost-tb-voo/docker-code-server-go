@@ -1,16 +1,8 @@
 FROM golang:buster as golang
-MAINTAINER Novs Yama
-ARG VCS_REF
-LABEL org.label-schema.vcs-ref=$VCS_REF \
-      org.label-schema.vcs-url="https://github.com/frost-tb-voo/docker-code-server-go"
 
 FROM node as extension
-MAINTAINER Novs Yama
-ARG VCS_REF
-LABEL org.label-schema.vcs-ref=$VCS_REF \
-      org.label-schema.vcs-url="https://github.com/frost-tb-voo/docker-code-server-go"
+ARG VSCODE_GO_VERSION
 
-ENV VSCODE_GO_VERSION=0.12.0
 WORKDIR /golang
 RUN git clone https://github.com/microsoft/vscode-go.git \
  && cd ./vscode-go \
@@ -20,7 +12,6 @@ RUN git clone https://github.com/microsoft/vscode-go.git \
  && npm cache clean --force \
  && rm -rf node_modules package-lock.json \
  && npm install --silent \
- && npm audit fix --force \
  && npm install -g vsce \
  && vsce package \
  && npm cache clean --force \
@@ -29,9 +20,11 @@ RUN git clone https://github.com/microsoft/vscode-go.git \
  && cd ../ \
  && rm -rf /golang/vscode-go
 
-FROM codercom/code-server:v2
-MAINTAINER Novs Yama
+FROM codercom/code-server
 ARG VCS_REF
+ARG VSCODE_GO_VERSION
+
+LABEL maintainer="Novs Yama"
 LABEL org.label-schema.vcs-ref=$VCS_REF \
       org.label-schema.vcs-url="https://github.com/frost-tb-voo/docker-code-server-go"
 
@@ -53,6 +46,9 @@ ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
 RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 777 "$GOPATH"
 
 ADD settings.json /home/coder/.local/share/code-server/User/settings.json
+ADD settings.json /home/coder/.local/share/code-server/Machine
+ADD settings.json /home/coder/project/.vscode/settings.json
+COPY --from=extension /golang/Go-${VSCODE_GO_VERSION}.vsix /home/coder/
 RUN chown -hR coder /home/coder
 
 # https://github.com/Microsoft/vscode-go/wiki/Go-tools-that-the-Go-extension-depends-on
@@ -81,11 +77,9 @@ RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 777 "$GOPATH" \
  && go get -u github.com/josharian/impl \
  && go get -u github.com/tylerb/gotype-live \
  && go get -u github.com/cweill/gotests \
- && go get -u github.com/sourcegraph/go-langserver \
  && go get -u github.com/davidrjenni/reftools/cmd/fillstruct
+# && go get -u github.com/sourcegraph/go-langserver \
 
-ENV VSCODE_GO_VERSION=0.12.0
 WORKDIR /home/coder/project
-COPY --from=extension /golang/Go-${VSCODE_GO_VERSION}.vsix /home/coder/
 RUN code-server --install-extension /home/coder/Go-${VSCODE_GO_VERSION}.vsix
 
