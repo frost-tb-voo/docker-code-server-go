@@ -1,5 +1,9 @@
-/README.md
-/run.sh
-/LICENSE
-/.gitignore
-
+.git
+.gitignore
+.travis.yml
+LICENSE
+README.md
+build
+hello
+push
+run.sh
