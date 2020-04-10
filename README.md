@@ -3,8 +3,8 @@
 [![GitHub stars](https://img.shields.io/github/stars/frost-tb-voo/docker-code-server-go.svg?style=flat-square)](https://github.com/frost-tb-voo/docker-code-server-go/stargazers)
 [![GitHub license](https://img.shields.io/github/license/frost-tb-voo/docker-code-server-go.svg?style=flat-square)](https://github.com/frost-tb-voo/docker-code-server-go/blob/master/LICENSE)
 [![Docker pulls](https://img.shields.io/docker/pulls/novsyama/code-server-go.svg?style=flat-square)](https://hub.docker.com/r/novsyama/code-server-go)
-[![Docker image-size](https://img.shields.io/microbadger/image-size/novsyama/code-server-go.svg?style=flat-square)](https://microbadger.com/images/novsyama/code-server-go)
-![Docker layers](https://img.shields.io/microbadger/layers/novsyama/code-server-go.svg?style=flat-square)
+[![Docker image-size](https://img.shields.io/docker/image-size/novsyama/code-server-go.svg?style=flat-square)](https://hub.docker.com/r/novsyama/code-server-go)
+[![Docker layers](https://img.shields.io/microbadger/layers/novsyama/code-server-go.svg?style=flat-square)](https://microbadger.com/images/novsyama/code-server-go)
 
 An unofficial extended VSCode [code-server](https://github.com/cdr/code-server) image for latest golang with [vscode-go](https://github.com/microsoft/vscode-go/releases).
 See [novsyama/code-server-go](https://hub.docker.com/r/novsyama/code-server-go/)
