@@ -24,7 +24,7 @@ sudo docker run --name=vscode --net=host -d \
  --auth none
 ```
 
-And open http://localhost:8443 with your favorites browser.
+And open http://localhost:8080 with your favorites browser.
 For detail options, see [code-server](https://github.com/cdr/code-server).
 
 ### Pathes of vscode code-server
