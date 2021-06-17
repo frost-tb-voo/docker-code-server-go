@@ -8,12 +8,12 @@ PROJECT_DIR=${S_DIR}/hello
 PROJECT_DIR=`readlink -f ${PROJECT_DIR}`
 
 echo open :8080
-echo sudo -E docker pull ${IMAGE}
+sudo -E docker pull ${IMAGE}
 sudo -E docker stop vscode
 sudo -E docker rm vscode
 sudo -E docker run --name=vscode --net=host -d \
  --restart=always \
- -v "${PROJECT_DIR}:${CODER_HOME}/project" \
+ -v "${PROJECT_DIR}:${CODER_HOME}/project/code-server" \
  -w ${CODER_HOME}/project \
  --security-opt "seccomp:unconfined" \
  ${IMAGE} \
