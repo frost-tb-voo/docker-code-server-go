@@ -1,6 +1,6 @@
 #!/bin/sh
 
-IMAGE=novsyama/code-server-go
+IMAGE=ghcr.io/frost-tb-voo/code-server-go
 CODER_HOME=/home/coder
 
 S_DIR=$(cd $(dirname ${BASH_SOURCE:-$0}); pwd)
