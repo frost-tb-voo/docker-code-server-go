@@ -1,15 +1,16 @@
 #!/bin/sh
 
 IMAGE=codercom/code-server
+NEW_IMAGE=ghcr.io/frost-tb-voo/code-server-go
 DIR=$(cd $(dirname ${BASH_SOURCE:-$0}); pwd)
 echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 cd ${DIR}
-docker pull node
+docker pull node:12
 docker pull golang:buster
 docker pull ${IMAGE}
-docker build -t novsyama/code-server-go \
+docker build -t ${NEW_IMAGE} \
  --build-arg VCS_REF=`git rev-parse --short HEAD` \
- --build-arg VSCODE_GO_VERSION="0.12.0" \
  .
-docker tag novsyama/code-server-go novsyama/code-server-go:local
-docker images novsyama/code-server-go
+docker tag ${NEW_IMAGE} ${NEW_IMAGE}:local
+docker images ${NEW_IMAGE}
+
